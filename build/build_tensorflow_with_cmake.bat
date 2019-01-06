@@ -23,6 +23,15 @@ REM    set TENSORFLOW_BUILD_DIR=%~dp0\cmake
 REM )
 
 
+if EXIST "%TENSORFLOW_SOURCES%\.git"  (
+    pushd "%TENSORFLOW_SOURCES%"
+        git pull
+    popd
+)else (
+    git clone --single-branch --branch r1.10 https://github.com/jenshemprich/tensorflow.git "%TENSORFLOW_SOURCES%"
+)
+
+
 REM cmake parameters
 
 set CMAKE_SCRIPTS=%~dp0\scripts
