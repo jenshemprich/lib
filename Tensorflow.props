@@ -3,7 +3,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <_PropertySheetDisplayName>OpenCV</_PropertySheetDisplayName>
+    <_PropertySheetDisplayName>TensorFlow</_PropertySheetDisplayName>
     <TENSORFLOW_DIR>$(MSBuildThisFileDirectory)tensorflow\r1.10\</TENSORFLOW_DIR>
     <ExecutablePath>$(TENSORFLOW_DIR)$(VC_VERSION)\$(Configuration)\bin\;$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(TENSORFLOW_DIR)$(VC_VERSION)\$(Configuration)\include\;$(IncludePath)</IncludePath>
