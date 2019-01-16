@@ -39,12 +39,13 @@ call %CMAKE_SCRIPTS%\cmake_build_path.bat
 call %CMAKE_SCRIPTS%\cmake_cuda_path.bat
 call %CMAKE_SCRIPTS%\cmake_build_config.bat
 
+set CMAKE_CXX_FLAGS=
+set CMAKE_LINKER_FLAGS=
+
 REM /O2 is automatically set by cmake
 if /I %VS_SOLUTION_DIR_NAME%==Debug (
     set TENSORFLOW_WIN_CPU_SIMD_OPTION="/arch:AVX"
     set CMAKE_CONFIGURATION_TYPE=Debug
-        set CMAKE_CXX_FLAGS=
-        set CMAKE_LINKER_FLAGS=
 ) else (
     if /I not x%VS_SOLUTION_DIR_NAME:avx2=%==x%VS_SOLUTION_DIR_NAME% (
         set TENSORFLOW_WIN_CPU_SIMD_OPTION="/arch:AVX2"
@@ -53,17 +54,13 @@ if /I %VS_SOLUTION_DIR_NAME%==Debug (
         if /I not x%VS_SOLUTION_DIR_NAME:avx2-fma-gl=%==x%VS_SOLUTION_DIR_NAME% (
             echo "Warning: using option /GL exceeds COFF file size of 4G"
             echo "Warning:  cmake doesn't set /LTCG not set for modules"
-            echo "cmake doesn't set ""Whole Program Optimization"" in project general section either"
+            echo "cmake doesn't set ""Whole Program Optimization"" in project general section either -> must be set manually
             set CMAKE_CXX_FLAGS="/fp:fast /GL"
             set CMAKE_LINKER_FLAGS="/LTCG"
         ) else (
-            REM explicit /fp:fast build for benchmarking
+            REM explicit /fp:fast build for benchmarking (with macro definitions for Eigen)
             if /I not x%VS_SOLUTION_DIR_NAME:avx2-fma=%==x%VS_SOLUTION_DIR_NAME% (
-                set CMAKE_CXX_FLAGS="/fp:fast"
-                set CMAKE_LINKER_FLAGS=
-            ) else (
-                set CMAKE_CXX_FLAGS=
-                set CMAKE_LINKER_FLAGS=
+                set CMAKE_CXX_FLAGS="/fp:fast -D__FMA__ -D__AVX2__"
             )
         )
 
@@ -71,8 +68,6 @@ if /I %VS_SOLUTION_DIR_NAME%==Debug (
     ) else (
         set TENSORFLOW_WIN_CPU_SIMD_OPTION="/arch:AVX"
         set CMAKE_CONFIGURATION_TYPE=Release
-        set CMAKE_CXX_FLAGS=
-        set CMAKE_LINKER_FLAGS=
     )
 )
 
@@ -124,8 +119,7 @@ popd
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 REM devenv %CMAKE_DEV_PATH_BUILD%\tensorflow\%TENSORFLOW_RELEASE%\%TENSORFLOW_VS_BUILD%\%VS_SOLUTION_DIR_NAME%\Tensorflow.sln
-REM /p:CL_MPCount=6 ^
-REM /m:1 ^
+REM exit /b 0
 
 MSBuild.exe "%CMAKE_TENSORFLOW_BUILD_PATH%\INSTALL.vcxproj" ^
 /verbosity:minimal ^
