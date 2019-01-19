@@ -8,7 +8,6 @@
   <PropertyGroup>
     <LocalDebuggerWorkingDirectory>$(SolutionDir)</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerEnvironment>PATH=$(ExecutablePath);$(PATH)
-$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
+    <LocalDebuggerEnvironment>PATH=$(ExecutablePath);$(PATH)</LocalDebuggerEnvironment>
   </PropertyGroup>
 </Project>
