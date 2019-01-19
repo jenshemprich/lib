@@ -5,9 +5,9 @@
   <PropertyGroup>
     <_PropertySheetDisplayName>TensorFlow</_PropertySheetDisplayName>
     <TENSORFLOW_DIR>$(MSBuildThisFileDirectory)tensorflow\r1.10\</TENSORFLOW_DIR>
-    <ExecutablePath>$(TENSORFLOW_DIR)$(VC_VERSION)\$(Configuration)\bin\;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(TENSORFLOW_DIR)$(VC_VERSION)\$(Configuration)\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(TENSORFLOW_DIR)$(VC_VERSION)\$(Configuration)\lib\;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(TENSORFLOW_DIR)$(VS_VERSION)\$(Configuration)\bin\;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(TENSORFLOW_DIR)$(VS_VERSION)\$(Configuration)\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(TENSORFLOW_DIR)$(VS_VERSION)\$(Configuration)\lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>

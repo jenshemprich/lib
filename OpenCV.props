@@ -5,9 +5,9 @@
   <PropertyGroup>
     <_PropertySheetDisplayName>OpenCV</_PropertySheetDisplayName>
     <OPENCV_DIR>$(MSBuildThisFileDirectory)opencv-4.0.1\</OPENCV_DIR>
-    <ExecutablePath>$(OPENCV_DIR)\build\x64\$(VC_VERSION)\bin\;$(ExecutablePath)</ExecutablePath>
+    <ExecutablePath>$(OPENCV_DIR)\build\x64\$(VS_VERSION)\bin\;$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(OPENCV_DIR)\build\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(OPENCV_DIR)\build\x64\$(VC_VERSION)\lib\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(OPENCV_DIR)\build\x64\$(VS_VERSION)\lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
       <Link>
