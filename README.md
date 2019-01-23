@@ -43,3 +43,12 @@ To reference the library from a project, simply add the Build Customization file
 
 The cpu/gpu arch is simply matched via the configuration name, so the project references Debug/Release (both built with AVX) automatically. To match additional build-config library, just name them after the folder that contains the specific version of Tensorflow. (For instance `Release-cuda-avx2`)
 
+
+### Running the test project "Hello Tensorflow"
+A hello-world example derived from https://joe-antognini.github.io/machine-learning/windows-tf-project, plus a Google test suite to assert that the library works.
+
+If you build and run the Hello-Word example, the console should display the expected result
+```
+ 7 17
+-1 -3
+```
