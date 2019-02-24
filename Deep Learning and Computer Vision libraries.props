@@ -8,6 +8,7 @@
     <VS_VERSION>vc14</VS_VERSION>
   </PropertyGroup>
   <Import Project="OpenCV.props" />  
+  <Import Project="dlib.props" />  
   <Import Project="Tensorflow.props" />  
   <Import Project="Debugger Environment.props" />
 </Project>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_PropertySheetDisplayName>dlib</_PropertySheetDisplayName>
+    <DLIB_DIR>$(MSBuildThisFileDirectory)dlib-19.16\</DLIB_DIR>
+    <IncludePath>$(DLIB_DIR)\;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemGroup>
+    <BuildMacro Include="DLIB_DIR">
+      <Value>$(DLIB_DIR)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
