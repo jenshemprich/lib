@@ -1,19 +1,20 @@
 # Deep learning libs
 
-Contains ms build targets and build scripts for the libraries I use. Projects may simply include the Visual Studio Build customisation file `Deep Learning and Computer Vision libraries.targets` to reference those libraries from Visual Studio projects.
+Contains MSBuild targets and build scripts for the libraries I use. Projects may simply include the Visual Studio Build customisation file `Deep Learning and Computer Vision libraries.targets` to reference those libraries from Visual Studio projects.
 
 ![Visual Studio Build Customizations](images/Open_Visual_Studio_Build_Customisations.png "Open Visual Studio Build Customisations dialog")
 
-The customization file defines include and library paths, and automatically selects the library version that corresponds to the project's platform toolset.
+The customisation file defines include and library paths, and automatically selects the library version that corresponds to the project's platform toolset.
 
 ![Visual Studio Build Customizations](images/Visual_Studio_Build_Customisations_Files.jpg "Visual Studio Build Customisations files")
 
 
 ## Preparing libraries
-Including the build customization into a project, automatically enables access to the supported libriries. These are currently:
+Adding the build customisation file to a project automatically enables access to the supported libraries. These are currently:
 
 1. OpenCV: Platform toolset is automatically selected, OpenCV release contains binaries for VC14 and vc15
 2. TensorFlow: To be build manually (see below). Selection of platform toolset and cpu/gpu build configuration.
+3. dlib C++ toolkit
 
 ### OpenCV
 Download OpenCV 4.0.1 into the lib directory and rename the folder to "OpenCV 4.0.1".
