@@ -1,0 +1,74 @@
+From 12e1709c1d0ceec0aff401fcf4d2bd2f62a1f458 Mon Sep 17 00:00:00 2001
+From: Jens <31758696+j-o-hemprich@users.noreply.github.com>
+Date: Tue, 11 Dec 2018 22:15:45 +0100
+Subject: [PATCH 2/2] Fix Visual Studio Debug build LNK2019 errors
+ 2017
+
+---
+ tensorflow/core/kernels/depthtospace_op.cc | 4 ++++
+ tensorflow/core/kernels/spacetodepth_op.cc | 4 ++++
+ 2 files changed, 8 insertions(+)
+
+diff --git a/tensorflow/core/kernels/depthtospace_op.cc b/tensorflow/core/kernels/depthtospace_op.cc
+index b74a09e2cb..b79f6ffe47 100644
+--- a/tensorflow/core/kernels/depthtospace_op.cc
++++ b/tensorflow/core/kernels/depthtospace_op.cc
+@@ -38,7 +38,9 @@ limitations under the License.
+ namespace tensorflow {
+ 
+ typedef Eigen::ThreadPoolDevice CPUDevice;
++#if GOOGLE_CUDA
+ typedef Eigen::GpuDevice GPUDevice;
++#endif  // GOOGLE_CUDA
+ 
+ template <typename Device, typename T>
+ class DepthToSpaceOp : public OpKernel {
+@@ -112,6 +114,7 @@ class DepthToSpaceOp : public OpKernel {
+     auto Tinput = input.tensor<T, kDims>();
+     auto Toutput = outputs_tensor->tensor<T, kDims>();
+ 
++#if GOOGLE_CUDA
+     if (std::is_same<Device, GPUDevice>::value) {
+       if (is_int8x4) {
+         // NCHW_VECT_C with 4 x qint8 can be treated as NCHW int32.
+@@ -128,6 +131,7 @@ class DepthToSpaceOp : public OpKernel {
+         return;
+       }
+     }
++#endif  // GOOGLE_CUDA
+ 
+     // NOTE: Assumes data_format_ == FORMAT_NHWC here, since we have rejected
+     // (CPU && data_format_ != FORMAT_NHWC) in the constructor.
+diff --git a/tensorflow/core/kernels/spacetodepth_op.cc b/tensorflow/core/kernels/spacetodepth_op.cc
+index e59adfc6ac..c62c7b3534 100644
+--- a/tensorflow/core/kernels/spacetodepth_op.cc
++++ b/tensorflow/core/kernels/spacetodepth_op.cc
+@@ -38,7 +38,9 @@ limitations under the License.
+ namespace tensorflow {
+ 
+ typedef Eigen::ThreadPoolDevice CPUDevice;
++#if GOOGLE_CUDA
+ typedef Eigen::GpuDevice GPUDevice;
++#endif  // GOOGLE_CUDA
+ 
+ template <typename Device, typename T>
+ class SpaceToDepthOp : public OpKernel {
+@@ -114,6 +116,7 @@ class SpaceToDepthOp : public OpKernel {
+     auto Tinput = input.tensor<T, kDims>();
+     auto Toutput = outputs_tensor->tensor<T, kDims>();
+ 
++#if GOOGLE_CUDA
+     if (std::is_same<Device, GPUDevice>::value) {
+       if (is_int8x4) {
+         // NCHW_VECT_C with 4 x qint8 can be treated as NCHW int32.
+@@ -130,6 +133,7 @@ class SpaceToDepthOp : public OpKernel {
+         return;
+       }
+     }
++#endif  // GOOGLE_CUDA
+ 
+     // NOTE: Assumes data_format_ == FORMAT_NHWC here, since we have rejected
+     // (CPU && data_format_ != FORMAT_NHWC) in the constructor.
+-- 
+2.16.2.windows.1
+

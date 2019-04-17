@@ -259,11 +259,4 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
-
-
-# ignore any download libs that are installed here
-/dlib*
-/opencv*
-
-# ignore generated files from build
-/tensorflow*
+/cache

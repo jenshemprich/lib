@@ -1,0 +1,49 @@
+From 0c2a9805389cc681053c185a1e60075fc6ebab37 Mon Sep 17 00:00:00 2001
+From: Jens <jens@github.com>
+Date: Sun, 9 Dec 2018 12:47:53 +0100
+Subject: [PATCH 1/2] 0001 Fix Visual Studio Debug build compile errors
+
+---
+ tensorflow/core/framework/device_base.cc | 5 +++++
+ tensorflow/core/framework/op_kernel.h    | 2 +-
+ tensorflow/core/lib/io/path.cc           | 1 +
+ 2 files changed, 6 insertions(+), 0 deletion(-)
+
+diff --git a/tensorflow/core/framework/device_base.cc b/tensorflow/core/framework/device_base.cc
+index 9108c32942..de75c5f052 100644
+--- a/tensorflow/core/framework/device_base.cc
++++ b/tensorflow/core/framework/device_base.cc
+@@ -23,14 +23,19 @@ limitations under the License.
+ 
+ namespace tensorflow {
+ 
++// Workaround "function must return a value" when building on Windows
++const DeviceAttributes* none = nullptr;
++
+ DeviceBase::~DeviceBase() { gtl::STLDeleteElements(&eigen_cpu_devices_); }
+ 
+ const DeviceAttributes& DeviceBase::attributes() const {
+   LOG(FATAL) << "Device does not implement attributes()";
++  return *none;
+ }
+ 
+ const string& DeviceBase::name() const {
+   LOG(FATAL) << "Device does not implement name()";
++  return nullptr;
+ }
+ 
+ void DeviceBase::set_eigen_cpu_device(Eigen::ThreadPoolDevice* d) {
+diff --git a/tensorflow/core/lib/io/path.cc b/tensorflow/core/lib/io/path.cc
+index b75dcecadf..66617847b4 100644
+--- a/tensorflow/core/lib/io/path.cc
++++ b/tensorflow/core/lib/io/path.cc
+@@ -287,6 +287,7 @@ string GetTempFilename(const string& extension) {
+   }
+   LOG(FATAL) << "No temp directory found.";
+ #endif
++  return nullptr;
+ }
+ 
+ }  // namespace io
+-- 
+2.19.1.windows.1

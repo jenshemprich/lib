@@ -1,0 +1,25 @@
+From e7448859fa45a75b5b5311921e30b8123db704a7 Mon Sep 17 00:00:00 2001
+From: Jens <jens@github.com>
+Date: Sun, 9 Dec 2018 20:05:58 +0100
+Subject: [PATCH 1/2] Using protobuf 3.6.1 to fix vs 2017 debug assertion
+
+---
+ tensorflow/contrib/cmake/external/protobuf.cmake | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tensorflow/contrib/cmake/external/protobuf.cmake b/tensorflow/contrib/cmake/external/protobuf.cmake
+index f56fb35a0f..56a57a2340 100644
+--- a/tensorflow/contrib/cmake/external/protobuf.cmake
++++ b/tensorflow/contrib/cmake/external/protobuf.cmake
+@@ -16,7 +16,7 @@ include (ExternalProject)
+ 
+ set(PROTOBUF_INCLUDE_DIRS ${CMAKE_CURRENT_BINARY_DIR}/protobuf/src/protobuf/src)
+ set(PROTOBUF_URL https://github.com/google/protobuf.git)
+-set(PROTOBUF_TAG v3.6.0)
++set(PROTOBUF_TAG v3.6.1)
+ 
+ if(WIN32)
+   if(${CMAKE_GENERATOR} MATCHES "Visual Studio.*")
+-- 
+2.16.2.windows.1
+

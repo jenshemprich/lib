@@ -1,0 +1,41 @@
+From 5c7e339a648c2cdbab6bd2558f00b3229976d3f0 Mon Sep 17 00:00:00 2001
+From: Jens <jens@github.com>
+Date: Sun, 9 Dec 2018 12:54:31 +0100
+Subject: [PATCH 2/2] Fixed grpc $(Configuration): cmake grpc was always built
+ as release configuration
+
+---
+ tensorflow/contrib/cmake/external/grpc.cmake | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/tensorflow/contrib/cmake/external/grpc.cmake b/tensorflow/contrib/cmake/external/grpc.cmake
+index b1e64aa55c..188e0391e6 100644
+--- a/tensorflow/contrib/cmake/external/grpc.cmake
++++ b/tensorflow/contrib/cmake/external/grpc.cmake
+@@ -26,9 +26,9 @@ if(WIN32)
+   set(grpc_SSL_PROVIDER NONE)
+   if(${CMAKE_GENERATOR} MATCHES "Visual Studio.*")
+     set(grpc_STATIC_LIBRARIES
+-        ${CMAKE_CURRENT_BINARY_DIR}/grpc/src/grpc/Release/grpc++_unsecure.lib
+-        ${CMAKE_CURRENT_BINARY_DIR}/grpc/src/grpc/Release/grpc_unsecure.lib
+-        ${CMAKE_CURRENT_BINARY_DIR}/grpc/src/grpc/Release/gpr.lib)
++        ${CMAKE_CURRENT_BINARY_DIR}/grpc/src/grpc/$(Configuration)/grpc++_unsecure.lib
++        ${CMAKE_CURRENT_BINARY_DIR}/grpc/src/grpc/$(Configuration)/grpc_unsecure.lib
++        ${CMAKE_CURRENT_BINARY_DIR}/grpc/src/grpc/$(Configuration)/gpr.lib)
+   else()
+     set(grpc_STATIC_LIBRARIES
+         ${CMAKE_CURRENT_BINARY_DIR}/grpc/src/grpc/grpc++_unsecure.lib
+@@ -57,8 +57,8 @@ ExternalProject_Add(grpc
+     DOWNLOAD_DIR "${DOWNLOAD_LOCATION}"
+     BUILD_IN_SOURCE 1
+     BUILD_BYPRODUCTS ${grpc_STATIC_LIBRARIES}
+-    BUILD_COMMAND ${CMAKE_COMMAND} --build . --config Release --target ${grpc_TARGET}
+-    COMMAND ${CMAKE_COMMAND} --build . --config Release --target grpc_cpp_plugin
++    BUILD_COMMAND ${CMAKE_COMMAND} --build . --config $(Configuration) --target ${grpc_TARGET}
++    COMMAND ${CMAKE_COMMAND} --build . --config $(Configuration) --target grpc_cpp_plugin
+     INSTALL_COMMAND ""
+     CMAKE_CACHE_ARGS
+         -DCMAKE_BUILD_TYPE:STRING=Release
+-- 
+2.16.2.windows.1
+
