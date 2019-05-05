@@ -2,21 +2,30 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Label="UserMacros" Condition="$(PlatformToolsetVersion)==142">
+    <OPENCV_TOOLSET_VERSION>vc15</OPENCV_TOOLSET_VERSION>
+  </PropertyGroup>
+  <PropertyGroup Label="UserMacros" Condition="$(PlatformToolsetVersion)==141">
+    <OPENCV_TOOLSET_VERSION>vc15</OPENCV_TOOLSET_VERSION>
+  </PropertyGroup>
+  <PropertyGroup Label="UserMacros" Condition="$(PlatformToolsetVersion)==14">
+    <OPENCV_TOOLSET_VERSION>vc14</OPENCV_TOOLSET_VERSION>
+  </PropertyGroup>
   <PropertyGroup>
     <_PropertySheetDisplayName>OpenCV</_PropertySheetDisplayName>
-    <OPENCV_DIR>$(MSBuildThisFileDirectory)opencv-4.0.1\</OPENCV_DIR>
-    <ExecutablePath>$(OPENCV_DIR)\build\x64\$(VS_VERSION)\bin\;$(ExecutablePath)</ExecutablePath>
+    <OPENCV_DIR>$(MSBuildThisFileDirectory)opencv-4.1.0\</OPENCV_DIR>
+    <ExecutablePath>$(OPENCV_DIR)\build\x64\$(OPENCV_TOOLSET_VERSION)\bin\;$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(OPENCV_DIR)\build\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(OPENCV_DIR)\build\x64\$(VS_VERSION)\lib\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(OPENCV_DIR)\build\x64\$(OPENCV_TOOLSET_VERSION)\lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
       <Link>
-      <AdditionalDependencies>opencv_world401d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_world410d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'!='Debug'">
       <Link>
-      <AdditionalDependencies>opencv_world401.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_world410.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

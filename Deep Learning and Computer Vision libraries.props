@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" Condition="$(PlatformToolsetVersion)==142">
+    <VS_VERSION>vc16</VS_VERSION>
+  </PropertyGroup>
   <PropertyGroup Label="UserMacros" Condition="$(PlatformToolsetVersion)==141">
     <VS_VERSION>vc15</VS_VERSION>
   </PropertyGroup>

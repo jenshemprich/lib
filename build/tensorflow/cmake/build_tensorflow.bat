@@ -13,7 +13,7 @@ call %CMAKE_SCRIPTS%\cmake_build_config.bat
 REM Defaults
 
 set ROOT=%~dp0
-set BUILD_CACHE=%ROOT%cache\
+set BUILD_CACHE=%ROOT%cache
 
 if NOT [%1] == [] (
     set VS_SOLUTION_DIR_NAME=%1
@@ -24,7 +24,7 @@ if NOT [%1] == [] (
 if NOT [%2] == [] (
     set TENSORFLOW_SOURCES=%2
 )else (
-    set TENSORFLOW_SOURCES=%BUILD_CACHE%tensorflow_%TENSORFLOW_RELEASE%-cmake
+    set TENSORFLOW_SOURCES=%BUILD_CACHE%\tensorflow_%TENSORFLOW_RELEASE%
 )
 
 
@@ -36,8 +36,8 @@ if EXIST "%TENSORFLOW_SOURCES%\.git"  (
     git clone --single-branch --branch %TENSORFLOW_RELEASE% https://github.com/tensorflow/tensorflow.git "%TENSORFLOW_SOURCES%"
     pushd "%TENSORFLOW_SOURCES%"
         REM TODO enum files at runtime
-        git am --signoff %ROOT%patches\tensorflow\r1.10\0001-Using-protobuf-3.6.1-to-fix-vs-2017-debug-assertion.patch
-        git am --signoff %ROOT%patches\tensorflow\r1.10\0002-Fixed-grpc-Configuration-cmake-grpc-was-always-built.patch
+        git am --signoff %ROOT%patches\0001-Using-protobuf-3.6.1-to-fix-vs-2017-debug-assertion.patch
+        git am --signoff %ROOT%patches\0002-Fixed-grpc-Configuration-cmake-grpc-was-always-built.patch
     popd
 )
 
@@ -97,9 +97,8 @@ if /I not x%VS_SOLUTION_DIR_NAME:cuda=%==x%VS_SOLUTION_DIR_NAME% (
 
 set TENSORFLOW_BUILD_CC_TESTS_FLAG="OFF"
 
-set CMAKE_DEV_PATH_BUILD=%TENSORFLOW_SOURCES%\cmake_build\
-set CMAKE_INSTALL_PREFIX=%CMAKE_DEV_PATH_LIB%\tensorflow\%TENSORFLOW_RELEASE%\%TENSORFLOW_VS_BUILD%\%VS_SOLUTION_DIR_NAME%\
-set CMAKE_TENSORFLOW_BUILD_PATH=%CMAKE_DEV_PATH_BUILD%\tensorflow\%TENSORFLOW_RELEASE%\%TENSORFLOW_VS_BUILD%\%VS_SOLUTION_DIR_NAME%\
+set CMAKE_INSTALL_PREFIX=%CMAKE_DEV_PATH_LIB%\tensorflow\%TENSORFLOW_RELEASE%\%TENSORFLOW_VS_VERSION%\%VS_SOLUTION_DIR_NAME%
+set CMAKE_TENSORFLOW_BUILD_PATH=%BUILD_CACHE%\%TENSORFLOW_VS_VERSION%\tensorflow\%TENSORFLOW_RELEASE%\%VS_SOLUTION_DIR_NAME%
 
 
 REM Debug exit
@@ -108,7 +107,7 @@ REM exit /B 0
 
 REM cmake project setup
 
-pushd %TENSORFLOW_SOURCES%\tensorflow\contrib\cmake\
+pushd %TENSORFLOW_SOURCES%\tensorflow\contrib\cmake
 
 cmake . -B%CMAKE_TENSORFLOW_BUILD_PATH% ^
 -Ax64 ^
@@ -140,12 +139,12 @@ cmake . -B%CMAKE_TENSORFLOW_BUILD_PATH% ^
 -Dtensorflow_WIN_CPU_SIMD_OPTIONS=%TENSORFLOW_WIN_CPU_SIMD_OPTION% ^
 -DCMAKE_INSTALL_PREFIX=%CMAKE_INSTALL_PREFIX%
 
-REM Install mkl from F:\Developer\lib\build\tensorflow_r1.10-cmake\cmake_build\tensorflow\r1.10\vc15\Release-mkl\mkl\bin
+REM Install mkl from F:\Developer\lib\build\cache\tensorflow\r1.10\vc16\Release-mkl\mkl\bin
 popd
 
 if %errorlevel% neq 0 exit /b %errorlevel%
 
-REM devenv %CMAKE_DEV_PATH_BUILD%\tensorflow\%TENSORFLOW_RELEASE%\%TENSORFLOW_VS_BUILD%\%VS_SOLUTION_DIR_NAME%\Tensorflow.sln
+REM devenv %CMAKE_TENSORFLOW_BUILD_PATH%\Tensorflow.sln
 REM exit /b 0
 
 
@@ -165,10 +164,15 @@ if %errorlevel% neq 0 exit /b %errorlevel%
 REM Post-processing
 
 REM Consolidate include files
-rmdir /Q /S %CMAKE_INSTALL_PREFIX%..\..\include
-move %CMAKE_INSTALL_PREFIX%include %CMAKE_INSTALL_PREFIX%..\..\
-
+rmdir /Q /S %CMAKE_INSTALL_PREFIX%\..\..\include
 if %errorlevel% neq 0 exit /b %errorlevel%
+move %CMAKE_INSTALL_PREFIX%\include %CMAKE_INSTALL_PREFIX%\..\..\
+if %errorlevel% neq 0 (
+    echo "If you have an Explorer window open close it!"
+    pause
+    move %CMAKE_INSTALL_PREFIX%include %CMAKE_INSTALL_PREFIX%\..\..\
+    if %errorlevel% neq 0 exit /b %errorlevel%
+)
  
  exit /b 0
  
