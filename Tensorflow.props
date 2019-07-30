@@ -6,7 +6,7 @@
     <_PropertySheetDisplayName>TensorFlow</_PropertySheetDisplayName>
     <TENSORFLOW_DIR>$(MSBuildThisFileDirectory)tensorflow\r1.10\</TENSORFLOW_DIR>
     <ExecutablePath>$(TENSORFLOW_DIR)$(VS_VERSION)\$(Configuration)\bin\;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(TENSORFLOW_DIR)include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(TENSORFLOW_DIR)include\;$(TENSORFLOW_DIR)include\eigen_archive\;$(IncludePath)</IncludePath>
     <LibraryPath>$(TENSORFLOW_DIR)$(VS_VERSION)\$(Configuration)\lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup>

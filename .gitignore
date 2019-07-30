@@ -264,6 +264,7 @@ __pycache__/
 # ignore any download libs that are installed here
 /dlib*
 /opencv*
+/Qt/*
 
 # ignore generated files from build
 /tensorflow*
