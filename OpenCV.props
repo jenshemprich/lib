@@ -14,9 +14,9 @@
   <PropertyGroup>
     <_PropertySheetDisplayName>OpenCV</_PropertySheetDisplayName>
     <OPENCV_DIR>$(MSBuildThisFileDirectory)opencv-4.1.0\</OPENCV_DIR>
-    <ExecutablePath>$(OPENCV_DIR)\build\x64\$(OPENCV_TOOLSET_VERSION)\bin\;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(OPENCV_DIR)\build\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(OPENCV_DIR)\build\x64\$(OPENCV_TOOLSET_VERSION)\lib\;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(OPENCV_DIR)build\x64\$(OPENCV_TOOLSET_VERSION)\bin\;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(OPENCV_DIR)build\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(OPENCV_DIR)build\x64\$(OPENCV_TOOLSET_VERSION)\lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
       <Link>
