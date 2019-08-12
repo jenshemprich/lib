@@ -62,15 +62,15 @@ if /I %VS_SOLUTION_DIR_NAME%==Debug (
 
     if /I not x%VS_SOLUTION_DIR_NAME:avx2=%==x%VS_SOLUTION_DIR_NAME% (
         set TENSORFLOW_WIN_CPU_SIMD_OPTION="/arch:AVX2"
-        set CMAKE_CXX_FLAGS="-D__FMA__ -D__AVX2__"
+        set CMAKE_CXX_FLAGS=-D__FMA__ -D__AVX2__
 
         REM explicit fma build for benchmarking with macro definitions for Eigen
         if /I not x%VS_SOLUTION_DIR_NAME:-fma=%==x%VS_SOLUTION_DIR_NAME% (
-            set CMAKE_CXX_FLAGS=%CMAKE_CXX_FLAGS% "-D__FMA__ -D__AVX2__"
+            set CMAKE_CXX_FLAGS=%CMAKE_CXX_FLAGS% -D__FMA__ -D__AVX2__
         )
     ) else (
         set TENSORFLOW_WIN_CPU_SIMD_OPTION="/arch:AVX"
-        set CMAKE_CXX_FLAGS="-D__AVX__"
+        set CMAKE_CXX_FLAGS=-D__AVX__
     )
 
     REM explicit /fp:fast build for benchmarking (with macro definitions for Eigen)
@@ -80,7 +80,7 @@ if /I %VS_SOLUTION_DIR_NAME%==Debug (
     REM TODO -> After benchmarking, integrate into avx, avx2 (avx+fast, avx2+fast+fma)
     if /I not x%VS_SOLUTION_DIR_NAME:-fma=%==x%VS_SOLUTION_DIR_NAME% (
         REM Yes, that's not exactly fma (only available Haswell+), but close
-        set CMAKE_CXX_FLAGS=%CMAKE_CXX_FLAGS% "/fp:fast"
+        set CMAKE_CXX_FLAGS=%CMAKE_CXX_FLAGS% /fp:fast
     )
 
     REM global optimization build for benchmarking (does not work yet)
@@ -88,16 +88,16 @@ if /I %VS_SOLUTION_DIR_NAME%==Debug (
         echo "Warning: using option /GL exceeds COFF file size of 4G - build will fail"
         echo "Warning:  cmake doesn't set /LTCG for modules"
         echo "cmake doesn't set ""Whole Program Optimization"" in project general section either -> must be set manually
-        set CMAKE_CXX_FLAGS=%CMAKE_CXX_FLAGS% "/GL"
+        set CMAKE_CXX_FLAGS=%CMAKE_CXX_FLAGS% /GL
         set CMAKE_LINKER_FLAGS=%CMAKE_LINKER_FLAGS% "/LTCG"
     )
 
-    REM TODO cmake integration of mkl degrades performance -> use bazel build
+    REM TODO cmake integration of mkl degrades r1.10 performance -> use bazel build + r.1.14
     if /I not x%VS_SOLUTION_DIR_NAME:-mkl=%==x%VS_SOLUTION_DIR_NAME% (
         set TENSORFLOW_ENABLE_MKL_FLAG=ON
         REM set CMAKE_CXX_FLAGS="-DINTEL_MKL -DEIGEN_USE_VML -DENABLE_MKL"
         REM set CMAKE_CXX_FLAGS="-DINTEL_MKL -DINTEL_MKL_ML -DEIGEN_USE_MKL_ALL -DMKL_DIRECT_CALL"
-        set CMAKE_CXX_FLAGS=%CMAKE_CXX_FLAGS% "-DEIGEN_USE_MKL_ALL"
+        set CMAKE_CXX_FLAGS=%CMAKE_CXX_FLAGS% -DEIGEN_USE_MKL_ALL
     )
 )
 
@@ -125,7 +125,7 @@ cmake . -B%CMAKE_TENSORFLOW_BUILD_PATH% ^
 -Ax64 ^
 -G%CMAKE_GENERATOR% ^
 -DCMAKE_CONFIGURATION_TYPES=%CMAKE_CONFIGURATION_TYPE% ^
--DCMAKE_CXX_FLAGS=%CMAKE_CXX_FLAGS% ^
+-DCMAKE_CXX_FLAGS="%CMAKE_CXX_FLAGS%" ^
 -DCMAKE_EXE_LINKER_FLAGS=%CMAKE_LINKER_FLAGS% ^
 -DCMAKE_SHARED_LINKER_FLAGS=%CMAKE_LINKER_FLAGS% ^
 -DCMAKE_MODULE_LINKER_FLAGS=%CMAKE_LINKER_FLAGS% ^
